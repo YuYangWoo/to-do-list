@@ -1,4 +1,3 @@
-package ToDoList;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -7,13 +6,6 @@ import java.util.Date;
 public class Task {
     private String content; // 할 일
     private String registrationTime; // 등록 시간
-
-    // 생성자
-    public Task()
-    {
-        this.content = "할 일";
-        this.registrationTime = "19/01/01";
-    }
 
     // 사용자가 task를 추가할 경우
     public Task(String content)
@@ -36,7 +28,7 @@ public class Task {
 
     /**
      * Date 클래스에서 현재 날짜를 받아서 String으로 반환
-     * @return 현재 날짜(String)
+     * @return today 현재 날짜(yy/MM/dd)
      */
     private String convertDate() {
         // Date 클래스를 선언하고, 현재 날짜로 초기화
@@ -46,7 +38,11 @@ public class Task {
         Date date = new Date();
         String today = dateformat.format(date);
         return today;
-
-
     }
+
+    @Override
+    public String toString() {
+        return getContent() + " " + getRegistrationTime();
+    }
+
 }

@@ -1,9 +1,4 @@
-package ToDoList;
-
-import ToDoList.Task;
-
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Scanner;
 
 public class Launcher
@@ -17,8 +12,9 @@ public class Launcher
         tasks = new ArrayList<>(); // tasks 초기화
         scanner = new Scanner(System.in); // Scanner 초기화
 
-
         // 임시로 넣는 부분(나중에 파일 입출력 혹은 DB로 구현)
+        // H2 DB를 연결하고(로컬DB),, 추가,수정,삭제 할때마다 DB에 반영하도록
+        // 이 플젝 끝나고 뭐할지 아이디어 고민해오기
         tasks.add(new Task("빨래하기", "20/01/02"));
         tasks.add(new Task("샤워하기", "20/01/01"));
         tasks.add(new Task("운동하기", "19/12/27"));
@@ -58,21 +54,11 @@ public class Launcher
     /**
      * 등록된 할 일 출력
      */
-    // iterator 공부하고 적용해오기
     void printTasks()
     {
-       /* for(int i = 0; i < tasks.size(); i++)
-        {
-            System.out.println((i+1) + ". " + tasks.get(i).getContent() + " " + tasks.get(i).getRegistrationTime());
-        }
-        */
-        Iterator <Task> it = tasks.iterator();
-        Iterator <Task> it1=tasks.iterator();
-        int i=0;
-       while(it.hasNext())
+       for(int i = 0; i < tasks.size(); i++)
        {
-           System.out.println((i+1)+"."+it.next().getContent()+" "+it1.next().getRegistrationTime());
-           i++;
+           System.out.println((i+1) + ". " + tasks.get(i));
        }
     }
 
@@ -94,8 +80,6 @@ public class Launcher
         else if(select.equals("4"))
             System.exit(0);
         else {
-            // 1,2,3,4 이외에 다른 문자열을 입력했을 때 어떻게 처리할 것인지 완료
-            // 다시 입력하세요 출력하고 select 메뉴로 돌아가도록  완료
             System.out.println("다시 입력하세요");
             selectMenu();
         }
@@ -117,15 +101,15 @@ public class Launcher
     /**
      * 할 일 수정
      */
-    // IndexOutOfBounds Exception을 검색해서 예외처리 해오기 ( 왜 필요한지, 어떻게 해야하는지 ) try~catch~finally
     void updateTask()
     {
-        // 이 부분도 addTask()처럼 화면 전환 자연스럽게 만들기 완료
         try {
             printTitle();
             printTasks();
             System.out.print("수정할 번호) ");
             int num = Integer.parseInt(scanner.nextLine()) - 1;
+
+            // 인덱스 범위 검사를 여기서 해야 됨
 
             System.out.print("▶) ");
             String content = scanner.nextLine();
@@ -133,17 +117,15 @@ public class Launcher
             tasks.set(num, new Task(content));
         }
         catch(IndexOutOfBoundsException e) {
-            System.out.println(e);
+            // 올바르지 않은 번호입니다. 다시 입력해주세요.
         }
     }
 
     /**
      * 할 일 삭제
      */
-    // IndexOutOfBounds Exception을 검색해서 예외처리 해오기 ( 왜 필요한지, 어떻게 해야하는지 ) try~catch~finally
     void deleteTask()
     {
-        // 이 부분도 addTask()처럼 화면 전환 자연스럽게 만들기  완료
         try {
             printTitle();
             printTasks();
